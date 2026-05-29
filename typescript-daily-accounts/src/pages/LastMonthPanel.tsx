@@ -44,7 +44,7 @@ function LastMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => voi
         if (!ignore) {
           console.log(`Fetching data for date: ${formatPrvMonthToYYYYMM(today)}`);
           const data = await get(
-            `${window.API_URL}/dev/expense?date=${formatPrvMonthToYYYYMM(today)}`
+            `${window.API_URL}/expense?date=${formatPrvMonthToYYYYMM(today)}`
           );
           const parsedData =  rawMonthlyExpenses.parse(data); 
 
@@ -55,16 +55,17 @@ function LastMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => voi
               Transport: acc.Transport + Number(expense.Transport || 0),
               Utility: acc.Utility + Number(expense.Utility || 0),
               Other: acc.Other + Number(expense.Other || 0),
+              Adhoc: acc.Adhoc + Number(expense.Adhoc || 0)
             };
-          }, { Food: 0, Transport: 0, Utility: 0, Other: 0 });
+          }, { Food: 0, Transport: 0, Utility: 0, Other: 0, Adhoc: 0 });
 
           // Set state variables once with the final totals
           setFoodExpense(totals.Food);
           setTravelExpense(totals.Transport);
           setUtilityExpense(totals.Utility);
-          setAdhocExpense(totals.Other);
+          setAdhocExpense(totals.Adhoc);
           setOtherExpense(totals.Other);
-          setTotalExpense(totals.Food + totals.Transport + totals.Utility + totals.Other);
+          setTotalExpense(totals.Food + totals.Transport + totals.Utility + totals.Other + totals.Adhoc);
         }
       } catch (error) {
         if (!ignore && error instanceof Error) {

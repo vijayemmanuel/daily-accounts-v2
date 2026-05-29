@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef, useCallback} from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { Button, OutlinedInput, Stack, Typography } from '@mui/material';
 import NumberField from '../components/NumberField';
 import { formatToYYYYMM, formatToYYYYMMDD } from '../utils/dateutils';
-import { get, put } from '../utils/http';
+import { get } from '../utils/http';
 import rawMonthlyExpenses, { ExpenseRequest } from '../datastructure/MonthlyExpenses'
 import ExpenditureDaySelect from '../components/ExpenditureDaySelect';
 import { setError } from '../utils/error';
@@ -13,6 +13,7 @@ interface Totals {
   Transport: number;
   Utility: number;
   Other: number;
+  Adhoc: number;
 }
 
 function CurrentMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => void}) {
@@ -21,7 +22,7 @@ function CurrentMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => 
 
     const saveButtonRef = useRef<HTMLButtonElement>(null);
 
-    const  [totals, setTotals] = useState<Totals>({ Food: 0, Transport: 0, Utility: 0, Other: 0 });
+    const  [totals, setTotals] = useState<Totals>({ Food: 0, Transport: 0, Utility: 0, Other: 0 , Adhoc: 0});
 
     const [selectedDay, setSelectedDay] = useState<Date>(today);
 
@@ -40,6 +41,7 @@ function CurrentMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => 
     }
 
     async function handleSave() {
+      setIsFetching(true);
       if (saveButtonRef.current) {
         saveButtonRef.current.disabled = true;
         try {
@@ -50,11 +52,12 @@ function CurrentMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => 
             Transport: travelExpense?.toString() ?? "0",
             Utility: utilityExpense?.toString() ?? "0",
             Other: otherExpense?.toString() ?? "0",
+            Adhoc: adhocExpense?.toString() ?? "0"
           }
         });
 
-        const response = await fetch(`${window.API_URL}/dev/expense`, {
-            method: 'PUT',
+        const response = await fetch(`${window.API_URL}/expense`, {
+            method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json'
@@ -73,7 +76,7 @@ function CurrentMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => 
           saveButtonRef.current.disabled = false;
         }
       }
-      
+      setIsFetching(false);
     }
 
    
@@ -92,7 +95,7 @@ function CurrentMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => 
         if (!ignore) {
           console.log(`Fetching data for date: ${formatToYYYYMM(selectedDay)}`);
           const data = await get(
-            `${window.API_URL}/dev/expense?date=${formatToYYYYMM(selectedDay)}`
+            `${window.API_URL}/expense?date=${formatToYYYYMM(selectedDay)}`
           );
           const parsedData =  rawMonthlyExpenses.parse(data); 
           // TypeScript "knows" that parsedData will be an array of rawMonthlyExpenses
@@ -104,7 +107,7 @@ function CurrentMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => 
             setFoodExpense(Number(expense.Food));
             setTravelExpense(Number(expense.Transport));
             setUtilityExpense(Number(expense.Utility));
-            setAdhocExpense(Number(expense.Other));
+            setAdhocExpense(Number(expense.Adhoc));
             setOtherExpense(Number(expense.Other));
           }
           else {
@@ -118,8 +121,9 @@ function CurrentMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => 
               Transport: acc.Transport + Number(expense.Transport || 0),
               Utility: acc.Utility + Number(expense.Utility || 0),
               Other: acc.Other + Number(expense.Other || 0),
+              Adhoc: acc.Adhoc + Number(expense.Adhoc || 0)
             };
-          }, { Food: 0, Transport: 0, Utility: 0, Other: 0 }));
+          }, { Food: 0, Transport: 0, Utility: 0, Other: 0, Adhoc: 0 }));
         }
       } catch (error) {
         if (!ignore && error instanceof Error) {
@@ -162,7 +166,7 @@ function CurrentMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => 
               </Stack>
               <Stack direction="row" spacing={2} justifyContent="center">
                 <NumberField label="Enter AdHoc Expense" size="small" value={adhocExpense ?? null} onValueChange={(value) => value !== null && setAdhocExpense(value)}/>
-                <NumberField label="Total AdHoc Spending" value={adhocExpense !== null ? adhocExpense + totals.Other : totals.Other} readOnly={true} size="small"/>
+                <NumberField label="Total AdHoc Spending" value={adhocExpense !== null ? adhocExpense + totals.Adhoc : totals.Adhoc} readOnly={true} size="small"/>
               </Stack>
               <Stack direction="row" spacing={2} justifyContent="center">
               <NumberField label="Enter Other Expense" size="small" value={otherExpense ?? null} onValueChange={(value) => value !== null && setOtherExpense(value)}/>

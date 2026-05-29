@@ -43,11 +43,12 @@ function TodayPanel({setIsFetching}: {setIsFetching: (value: boolean) => void}) 
             Transport: travelExpense?.toString() ?? "0",
             Utility: utilityExpense?.toString() ?? "0",
             Other: otherExpense?.toString() ?? "0",
+            Adhoc: adhocExpense?.toString() ?? "0"
           }
         });
 
-        const response = await fetch(`${window.API_URL}/dev/expense`, {
-        method: 'PUT',
+        const response = await fetch(`${window.API_URL}/expense`, {
+        method: 'POST',
         // Omit credentials (cookies, HTTP auth headers) to comply with "without credentials"
         credentials: 'omit', 
         headers: {
@@ -86,7 +87,7 @@ function TodayPanel({setIsFetching}: {setIsFetching: (value: boolean) => void}) 
         if (!ignore) {
           console.log(`Fetching data for date: ${formatToYYYYMM(today)}`);
           const data = await get(
-            `${window.API_URL}/dev/expense?date=${formatToYYYYMM(today)}`
+            `${window.API_URL}/expense?date=${formatToYYYYMM(today)}`
           );
           const parsedData =  rawMonthlyExpenses.parse(data); 
           // TypeScript "knows" that parsedData will be an array of rawMonthlyExpenses
@@ -95,7 +96,7 @@ function TodayPanel({setIsFetching}: {setIsFetching: (value: boolean) => void}) 
             setFoodExpense(Number(expense.Food));
             setTravelExpense(Number(expense.Transport));
             setUtilityExpense(Number(expense.Utility));
-            setAdhocExpense(Number(expense.Other));
+            setAdhocExpense(Number(expense.Adhoc));
             setOtherExpense(Number(expense.Other));
           });
         }
