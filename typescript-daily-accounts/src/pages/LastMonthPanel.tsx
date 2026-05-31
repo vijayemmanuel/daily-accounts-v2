@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import { Button, Stack } from '@mui/material';
 import NumberField from '../components/NumberField';
-import ExpenditureDate from '../components/ExpenditureDate';
 import rawMonthlyExpenses from '../datastructure/MonthlyExpenses'
 import { get } from '../utils/http';
-import { formatPrvMonthToYYYYMM, formatToYYYYMMDD } from '../utils/dateutils';
+import { formatPrvMonthToYYYYMM } from '../utils/dateutils';
 import { setError } from '../utils/error';
 import ExpenditureLastMonth from '../components/ExpenditureLastMonth';
-
-
 
 function LastMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => void}) {
 
@@ -89,15 +85,15 @@ function LastMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => voi
   }, []);
 
     return (
-          <Box sx={{ display: 'grid', gap: 4 , padding: 4}}>
-            <ExpenditureLastMonth/>
-            <NumberField label="Total Food Spending" size="small" readOnly={true} value={foodExpense ?? null} onValueChange={(value) => setFoodExpense(value ?? null)}/>
-            <NumberField label="Total Travel Spending" size="small" readOnly={true} value={travelExpense ?? null} onValueChange={(value) => value !== null && setTravelExpense(value)}/>
-            <NumberField label="Total Utility Spending" size="small" readOnly={true} value={utilityExpense ?? null} onValueChange={(value) => value !== null && setUtilityExpense(value)}/>
-            <NumberField label="Total AdHoc Spending" size="small" readOnly={true} value={adhocExpense ?? null} onValueChange={(value) => value !== null && setAdhocExpense(value)}/>
-            <NumberField label="Total Other Spending" size="small" readOnly={true} value={otherExpense ?? null} onValueChange={(value) => value !== null && setOtherExpense(value)}/>
-            <NumberField label="Total MonthlySpending" size="small" readOnly={true} value={totalExpense ?? null} onValueChange={(value) => value !== null && setTotalExpense(value)}/>
-          </Box>
+      <Box sx={{ display: 'grid', gap: 4 , padding: 4}}>
+        <ExpenditureLastMonth/>
+        <NumberField label="Total Food Spending" size="small" readOnly={true} value={foodExpense ?? null} onValueChange={(value) => setFoodExpense(value ?? null)}/>
+        <NumberField label="Total Travel Spending" size="small" readOnly={true} value={travelExpense ?? null} onValueChange={(value) => value !== null && setTravelExpense(value)}/>
+        <NumberField label="Total Utility Spending" size="small" readOnly={true} value={utilityExpense ?? null} onValueChange={(value) => value !== null && setUtilityExpense(value)}/>
+        <NumberField label="Total AdHoc Spending" size="small" readOnly={true} value={adhocExpense ?? null} onValueChange={(value) => value !== null && setAdhocExpense(value)}/>
+        <NumberField label="Total Other Spending" size="small" readOnly={true} value={otherExpense ?? null} onValueChange={(value) => value !== null && setOtherExpense(value)}/>
+        <NumberField label="Total MonthlySpending" size="small" readOnly={true} value={totalExpense ?? null} onValueChange={(value) => value !== null && setTotalExpense(value)}/>
+      </Box>
     );
 }
 

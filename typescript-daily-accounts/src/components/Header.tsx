@@ -38,6 +38,11 @@ function Header({progressValue}: {progressValue: boolean}) {
     navigate("/home");
   }
 
+  const handleChartslick = (event: React.MouseEvent<HTMLElement>) => {                 
+    setAnchorEl(null);
+    navigate("/charts");
+  }
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -76,7 +81,7 @@ function Header({progressValue}: {progressValue: boolean}) {
               Expense Home
             </Typography>
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={handleChartslick}>
           <ListItemIcon>
             <AreaChartIcon fontSize="small" />
           </ListItemIcon>

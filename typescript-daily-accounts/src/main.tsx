@@ -4,6 +4,7 @@ import App from './components/AppLayout';
 import { BrowserRouter, Routes, Route } from "react-router";
 import SettingsPanel from './pages/SettingsPanel';
 import { MyThemeProvider } from './theme/theme';
+import ChartsPanel from './pages/ChartsPanel';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -17,6 +18,7 @@ root.render(
                     <Route path="/" element={<App />} />
                     <Route path="/home" element={<App />} />
                     <Route path="/settings" element={<SettingsPanel />} />
+                    <Route path="/charts" element={<ChartsPanel />} />
                 </Routes>
             </BrowserRouter>
         </MyThemeProvider>

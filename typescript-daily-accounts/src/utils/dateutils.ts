@@ -23,6 +23,21 @@ export function formatToYYYYMMDD(date: Date): string {
   return `${year}${month}${day}`;
 }
 
+export function formatToYYYY(date: Date): string {
+  const year = date.getFullYear();
+  return `${year}`;
+}
+
+export function getDateFromYear(yearStr: string): Date | null {
+  const year = parseInt(yearStr, 10);
+
+  if (isNaN(year) || year < 2018 || year > new Date().getFullYear()) {
+    return null; // Invalid year
+  }
+
+  return new Date(year, 0, 1); // January 1st of the given year
+}
+
 export function getDateFromDDDay(dateStr: string): Date | null {
   // Expected format: "DD - Day"
   const [dayPart] = dateStr.split(' - ');
