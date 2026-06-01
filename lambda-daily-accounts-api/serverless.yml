@@ -1,0 +1,49 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: vijayemmanuel
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: lambda-daily-accounts-api
+
+frameworkVersion: "4"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-south-1  # Set your target region here
+
+  profile: default # Matches the name in your credentials file
+
+  # Uncomment to easily set up a custom domain. Read the docs for more details:
+  # https://www.serverless.com/framework/docs/providers/aws/guide/domains
+  # domain: api.example.com
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${opt:table, 'DailyExpenses2'}"
+            
+  environment:
+    # Pass the existing table name to your application code
+    EXPENSES_TABLE: ${opt:table, "DailyExpenses2"}
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi:
+          path: "/expense"
+          method: get
+      - httpApi:
+          path: "/expense"
+          method: post
+# Optional: Catch-all to let Express handle any unmapped routing or sub-paths
+      - httpApi:
+          path: "/expense/{proxy+}"
+          method: "*"
