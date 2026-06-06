@@ -43,14 +43,10 @@ function ChartsPanel() {
 
     const options = {
     responsive: true,
+    maintainAspectRatio: false, // Allows you to set a fixed height
     plugins: {
-        legend: {
-        position: 'top' as const,
-        },
-        title: {
-        display: true,
-        text: 'Yearly Expenses',
-        },
+        legend: { position: 'top' as const },
+        title: { display: true, text: 'Yearly Expenses' },
     },
     };
 
@@ -187,22 +183,23 @@ function ChartsPanel() {
             <Typography variant="h5" align="center" color="textPrimary">Select year </Typography>
             <ExpenditureYearSelect date={today} onYearChange={setSelectedYear}/>
         </Stack>
-        <Box sx={{ display: 'grid', gap: 4 , padding: 4}}>
-            <Stack direction="row" spacing={2} justifyContent="center">
-                <Bar options={options} data={foodData} />;
-            </Stack> 
-            <Stack direction="row" spacing={2} justifyContent="center">
-                <Bar options={options} data={travelData} />;
-            </Stack>
-            <Stack direction="row" spacing={2} justifyContent="center">
-                <Bar options={options} data={utilityData} />;
-            </Stack>
-            <Stack direction="row" spacing={2} justifyContent="center">
-                <Bar options={options} data={otherData} />;
-            </Stack>
-            <Stack direction="row" spacing={2} justifyContent="center">
-                <Bar options={options} data={adhocData} />;
-            </Stack>
+        <Box sx={{ display: 'grid', gap: 4, padding: 2, width: '100%' }}>
+            {/* Remove the Stacks, use a Box to provide height */}
+            <Box sx={{ height: '300px', width: '100%' }}>
+                <Bar options={options} data={foodData} />
+            </Box>
+            <Box sx={{ height: '300px', width: '100%' }}>
+                <Bar options={options} data={travelData} />
+            </Box>
+            <Box sx={{ height: '300px', width: '100%' }}>
+                <Bar options={options} data={utilityData} />
+            </Box>
+            <Box sx={{ height: '300px', width: '100%' }}>
+                <Bar options={options} data={otherData} />
+            </Box>
+            <Box sx={{ height: '300px', width: '100%' }}>
+                <Bar options={options} data={adhocData} />
+            </Box>
         </Box>
     </Container>
     );

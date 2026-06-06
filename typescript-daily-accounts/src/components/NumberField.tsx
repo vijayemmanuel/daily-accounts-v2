@@ -22,11 +22,13 @@ export default function NumberField({
   label,
   error,
   size = 'medium',
+  endAdornmentFlag = true,
   ...other
 }: BaseNumberField.Root.Props & {
   label?: React.ReactNode;
   size?: 'small' | 'medium';
   error?: boolean;
+  endAdornmentFlag?: boolean;
 }) {
   let id = React.useId();
   if (idProp) {
@@ -55,8 +57,10 @@ export default function NumberField({
         render={(props, state) => (
           <OutlinedInput
             label={label}
+            
             inputRef={props.ref}
             value={state.inputValue}
+            onWheel={(event) => event.currentTarget.blur()}
             onBlur={props.onBlur}
             onChange={props.onChange}
             onKeyUp={props.onKeyUp}
@@ -67,40 +71,42 @@ export default function NumberField({
             }}
             startAdornment={<InputAdornment position="start">₹</InputAdornment>}
             endAdornment={
-              <InputAdornment
-                position="end"
-                sx={{
-                  flexDirection: 'column',
-                  maxHeight: 'unset',
-                  alignSelf: 'stretch',
-                  borderLeft: '1px solid',
-                  borderColor: 'divider',
-                  ml: 0,
-                  '& button': {
-                    py: 0,
-                    flex: 1,
-                    borderRadius: 0.5,
-                  },
-                }}
-              >
-                <BaseNumberField.Increment
-                  render={<IconButton size={size} aria-label="Increase" />}
+              endAdornmentFlag ? (
+                <InputAdornment
+                  position="end"
+                  sx={{
+                    flexDirection: 'column',
+                    maxHeight: 'unset',
+                    alignSelf: 'stretch',
+                    borderLeft: '1px solid',
+                    borderColor: 'divider',
+                    ml: 0,
+                    '& button': {
+                      py: 0,
+                      flex: 1,
+                      borderRadius: 0.5,
+                    },
+                  }}
                 >
-                  <KeyboardArrowUpIcon
-                    fontSize={size}
-                    sx={{ transform: 'translateY(2px)' }}
-                  />
-                </BaseNumberField.Increment>
+                  <BaseNumberField.Increment
+                    render={<IconButton size={size} aria-label="Increase" />}
+                  >
+                    <KeyboardArrowUpIcon
+                      fontSize={size}
+                      sx={{ transform: 'translateY(2px)' }}
+                    />
+                  </BaseNumberField.Increment>
 
-                <BaseNumberField.Decrement
-                  render={<IconButton size={size} aria-label="Decrease" />}
-                >
-                  <KeyboardArrowDownIcon
-                    fontSize={size}
-                    sx={{ transform: 'translateY(-2px)' }}
-                  />
-                </BaseNumberField.Decrement>
-              </InputAdornment>
+                  <BaseNumberField.Decrement
+                    render={<IconButton size={size} aria-label="Decrease" />}
+                  >
+                    <KeyboardArrowDownIcon
+                      fontSize={size}
+                      sx={{ transform: 'translateY(-2px)' }}
+                    />
+                  </BaseNumberField.Decrement>
+                </InputAdornment>
+              ) : undefined
             }
             sx={{ pr: 0 }}
           />

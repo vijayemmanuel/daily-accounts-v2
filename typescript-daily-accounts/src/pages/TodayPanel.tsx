@@ -8,8 +8,6 @@ import { get, put } from '../utils/http';
 import { formatToYYYYMM, formatToYYYYMMDD } from '../utils/dateutils';
 import { setError } from '../utils/error';
 
-
-
 function TodayPanel({setIsFetching}: {setIsFetching: (value: boolean) => void}) {
 
   const today = new Date();
@@ -83,7 +81,6 @@ function TodayPanel({setIsFetching}: {setIsFetching: (value: boolean) => void}) 
       setIsFetching(true);
       
       try {
-      
         if (!ignore) {
           console.log(`Fetching data for date: ${formatToYYYYMM(today)}`);
           const data = await get(
@@ -124,12 +121,22 @@ function TodayPanel({setIsFetching}: {setIsFetching: (value: boolean) => void}) 
     return (
           <Box sx={{ display: 'grid', gap: 4 , padding: 4}}>
             <ExpenditureDate/>
-            <NumberField label="Enter Food Expense" size="small" value={foodExpense ?? null} onValueChange={(value) => setFoodExpense(value ?? null)}/>
+            <Stack direction="row" spacing={2} justifyContent="center">
+              <NumberField label="Enter Food Expense" size="small" value={foodExpense ?? null} onValueChange={(value) => setFoodExpense(value ?? null)}/>
+            </Stack>
+            <Stack direction="row" spacing={2} justifyContent="center">
             <NumberField label="Enter Travel Expense" size="small" value={travelExpense ?? null} onValueChange={(value) => value !== null && setTravelExpense(value)}/>
-            <NumberField label="Enter Utility Expense" size="small" value={utilityExpense ?? null} onValueChange={(value) => value !== null && setUtilityExpense(value)}/>
-            <NumberField label="Enter AdHoc Expense" size="small" value={adhocExpense ?? null} onValueChange={(value) => value !== null && setAdhocExpense(value)}/>
-            <NumberField label="Enter Other Expense" size="small" value={otherExpense ?? null} onValueChange={(value) => value !== null && setOtherExpense(value)}/>
-      <Stack direction="row" spacing={2} justifyContent="center">
+            </Stack>
+            <Stack direction="row" spacing={2} justifyContent="center">
+              <NumberField label="Enter Utility Expense" size="small" value={utilityExpense ?? null} onValueChange={(value) => value !== null && setUtilityExpense(value)}/>
+            </Stack>
+            <Stack direction="row" spacing={2} justifyContent="center">
+              <NumberField label="Enter AdHoc Expense" size="small" value={adhocExpense ?? null} onValueChange={(value) => value !== null && setAdhocExpense(value)}/>
+            </Stack>
+            <Stack direction="row" spacing={2} justifyContent="center">
+              <NumberField label="Enter Other Expense" size="small" value={otherExpense ?? null} onValueChange={(value) => value !== null && setOtherExpense(value)}/>
+            </Stack>
+            <Stack direction="row" spacing={2} justifyContent="center">
               <Button variant="contained" color="secondary" onClick={handleClear}>
                 Clear  
               </Button>

@@ -154,23 +154,23 @@ return (
       </Stack>
       <Stack direction="row" spacing={2} justifyContent="center">
         <NumberField label="Enter Food Expense" size="small" value={foodExpense ?? null} onValueChange={(value) => setFoodExpense(value ?? null)}/>
-        <NumberField label="Total Food Spending" value={foodExpense !== null ? foodExpense + totals.Food : totals.Food} readOnly={true} size="small"/>
+        <NumberField endAdornmentFlag={false} label="Total Food Spending" value={foodExpense !== null ? foodExpense +totals.Food : totals.Food} readOnly={true} size="small"/>
       </Stack>
       <Stack direction="row" spacing={2} justifyContent="center">
         <NumberField label="Enter Travel Expense" size="small" value={travelExpense ?? null} onValueChange={(value) => value !== null && setTravelExpense(value)}/>
-        <NumberField label="Total Travel Spending" value={travelExpense !== null ? travelExpense + totals.Transport : totals.Transport} readOnly={true} size="small"/>
+        <NumberField endAdornmentFlag={false} label="Total Travel Spending" value={travelExpense !== null ? travelExpense + totals.Transport : totals.Transport} readOnly={true} size="small"/>
       </Stack>
       <Stack direction="row" spacing={2} justifyContent="center">
         <NumberField label="Enter Utility Expense" size="small" value={utilityExpense ?? null} onValueChange={(value) => value !== null && setUtilityExpense(value)}/>
-        <NumberField label="Total Utility Spending" value={utilityExpense !== null ? utilityExpense + totals.Utility : totals.Utility} readOnly={true} size="small"/>
+        <NumberField endAdornmentFlag={false} label="Total Utility Spending" value={utilityExpense !== null ? utilityExpense + totals.Utility : totals.Utility} readOnly={true} size="small"/>
       </Stack>
       <Stack direction="row" spacing={2} justifyContent="center">
         <NumberField label="Enter AdHoc Expense" size="small" value={adhocExpense ?? null} onValueChange={(value) => value !== null && setAdhocExpense(value)}/>
-        <NumberField label="Total AdHoc Spending" value={adhocExpense !== null ? adhocExpense + totals.Adhoc : totals.Adhoc} readOnly={true} size="small"/>
+        <NumberField endAdornmentFlag={false} label="Total AdHoc Spending" value={adhocExpense !== null ? adhocExpense + totals.Adhoc : totals.Adhoc} readOnly={true} size="small"/>
       </Stack>
       <Stack direction="row" spacing={2} justifyContent="center">
       <NumberField label="Enter Other Expense" size="small" value={otherExpense ?? null} onValueChange={(value) => value !== null && setOtherExpense(value)}/>
-      <NumberField label="Total Other Spending" value={otherExpense !== null ? otherExpense + totals.Other : totals.Other} readOnly={true} size="small"/>
+      <NumberField endAdornmentFlag={false} label="Total Other Spending" value={otherExpense !== null ? otherExpense + totals.Other : totals.Other} readOnly={true} size="small"/>
       </Stack>
       <Stack direction="row" spacing={2} justifyContent="center">
         <Button variant="contained" color="secondary" onClick={handleClear}>

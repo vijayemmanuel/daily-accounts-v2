@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
+import { Stack } from '@mui/material';
 import NumberField from '../components/NumberField';
 import rawMonthlyExpenses from '../datastructure/MonthlyExpenses'
 import { get } from '../utils/http';
@@ -87,12 +88,24 @@ function LastMonthPanel({setIsFetching}: {setIsFetching: (value: boolean) => voi
     return (
       <Box sx={{ display: 'grid', gap: 4 , padding: 4}}>
         <ExpenditureLastMonth/>
-        <NumberField label="Total Food Spending" size="small" readOnly={true} value={foodExpense ?? null} onValueChange={(value) => setFoodExpense(value ?? null)}/>
-        <NumberField label="Total Travel Spending" size="small" readOnly={true} value={travelExpense ?? null} onValueChange={(value) => value !== null && setTravelExpense(value)}/>
-        <NumberField label="Total Utility Spending" size="small" readOnly={true} value={utilityExpense ?? null} onValueChange={(value) => value !== null && setUtilityExpense(value)}/>
-        <NumberField label="Total AdHoc Spending" size="small" readOnly={true} value={adhocExpense ?? null} onValueChange={(value) => value !== null && setAdhocExpense(value)}/>
-        <NumberField label="Total Other Spending" size="small" readOnly={true} value={otherExpense ?? null} onValueChange={(value) => value !== null && setOtherExpense(value)}/>
-        <NumberField label="Total MonthlySpending" size="small" readOnly={true} value={totalExpense ?? null} onValueChange={(value) => value !== null && setTotalExpense(value)}/>
+        <Stack direction="row" spacing={2} justifyContent="center">
+        <NumberField endAdornmentFlag={false} label="Total Food Spending" size="small" readOnly={true} value={foodExpense ?? null} onValueChange={(value) => setFoodExpense(value ?? null)}/>
+        </Stack>
+        <Stack direction="row" spacing={2} justifyContent="center">
+        <NumberField endAdornmentFlag={false} label="Total Travel Spending" size="small" readOnly={true} value={travelExpense ?? null} onValueChange={(value) => value !== null && setTravelExpense(value)}/>
+        </Stack>
+        <Stack direction="row"  spacing={2} justifyContent="center">
+        <NumberField endAdornmentFlag={false} label="Total Utility Spending" size="small" readOnly={true} value={utilityExpense ?? null} onValueChange={(value) => value !== null && setUtilityExpense(value)}/>
+        </Stack>
+        <Stack direction="row" spacing={2} justifyContent="center">
+        <NumberField endAdornmentFlag={false} label="Total AdHoc Spending" size="small" readOnly={true} value={adhocExpense ?? null} onValueChange={(value) => value !== null && setAdhocExpense(value)}/>
+        </Stack>
+        <Stack direction="row" spacing={2} justifyContent="center">
+        <NumberField endAdornmentFlag={false} label="Total Other Spending" size="small" readOnly={true} value={otherExpense ?? null} onValueChange={(value) => value !== null && setOtherExpense(value)}/>
+        </Stack>
+        <Stack direction="row" spacing={2} justifyContent="center">
+        <NumberField endAdornmentFlag={false} label="Total Monthly Spending" size="small" readOnly={true} value={totalExpense ?? null} onValueChange={(value) => value !== null && setTotalExpense(value)}/>
+        </Stack>
       </Box>
     );
 }
