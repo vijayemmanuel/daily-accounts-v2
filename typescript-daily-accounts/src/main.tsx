@@ -5,6 +5,9 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import SettingsPanel from './pages/SettingsPanel';
 import { MyThemeProvider } from './theme/theme';
 import ChartsPanel from './pages/ChartsPanel';
+import { registerCharts } from './pages/chart-setup';
+
+registerCharts();
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

@@ -1,38 +1,14 @@
-import { useEffect, useState, useRef } from 'react';
-import { z } from 'zod';
+import { useEffect, useState } from 'react';
 import Header from "../components/Header";
 import Box from '@mui/material/Box';
 import { get } from '../utils/http';
-import { Stack, Typography, Container, useColorScheme } from "@mui/material";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  LineElement, 
-  PointElement, 
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
+import { Stack, Typography, Container } from "@mui/material";
+import { Chart } from 'react-chartjs-2';
+import type { ChartData } from 'chart.js';
 import ExpenditureYearSelect from '../components/ExpenditureYearSelect';
 import { formatToYYYY } from '../utils/dateutils';
 import { setError } from '../utils/error';
-import transformedYearlyExpenses, { yearlyExpenses } from '../datastructure/YearlyExpenses';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  LineElement,
-  PointElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
+import { yearlyExpenses } from '../datastructure/YearlyExpenses';
 
 function ChartsPanel() {
 
@@ -68,16 +44,17 @@ function ChartsPanel() {
         return Array(12).fill(avg);
     };
 
-    const foodData = {
+    const foodData: ChartData<'bar' | 'line'> ={
         labels,
         datasets: [
             {
+                type : 'bar',
                 label: 'Food',
                 data: labels.map((key:string) => foodExpenses[Number(key) - 1] || 0),
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
             },
             {
-                type: 'line' as const, // This adds the line
+                type: 'line', 
                 label: `${'Average : ₹ ' + calculateAverage(foodExpenses)[0].toFixed(2)}`,
                 data: calculateAverage(foodExpenses),
                 borderColor: 'rgba(255, 99, 132, 1)',
@@ -89,10 +66,11 @@ function ChartsPanel() {
         ],
     };
 
-    const travelData = {
+    const travelData: ChartData<'bar' | 'line'> = {
         labels,
         datasets: [
             {
+                type : 'bar',
                 label: 'Travel',
                 data: labels.map((key:string) => travelExpenses[Number(key) - 1] || 0),
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
@@ -110,10 +88,11 @@ function ChartsPanel() {
         ],
     };
 
-    const utilityData = {
+    const utilityData:ChartData<'bar' | 'line'> = {
         labels,
         datasets: [
             {
+                type : 'bar',
                 label: 'Utility',
                 data: labels.map((key:string) => utilityExpenses[Number(key) - 1] || 0),
                 backgroundColor: 'rgba(255, 205, 86, 0.5)',
@@ -131,10 +110,11 @@ function ChartsPanel() {
         ],
     };
 
-    const otherData = {
+    const otherData:ChartData<'bar' | 'line'> = {
         labels,
         datasets: [
             {
+                type : 'bar',
                 label: 'Other',
                 data: labels.map((key:string) => otherExpenses[Number(key) - 1] || 0),
                 backgroundColor: 'rgba(75, 192, 192, 0.5)',
@@ -152,10 +132,11 @@ function ChartsPanel() {
         ],
     };
 
-    const adhocData = {
+    const adhocData: ChartData<'bar' | 'line'> = {
         labels,
         datasets: [
             {
+                type : 'bar',
                 label: 'Adhoc',
                 data: labels.map((key:string) => adhocExpenses[Number(key) - 1] || 0),
                 backgroundColor: 'rgba(153, 102, 255, 0.5)',
@@ -249,22 +230,21 @@ function ChartsPanel() {
             <Typography variant="h5" align="center" color="textPrimary">Select year </Typography>
             <ExpenditureYearSelect date={today} onYearChange={setSelectedYear}/>
         </Stack>
-        <Box sx={{ display: 'grid', gap: 4, padding: 2, width: '100%' }}>
-            {/* Remove the Stacks, use a Box to provide height */}
+        <Box sx={ { display: 'grid', gap: 4, padding: 2, width: '100%' } }>
             <Box sx={{ height: '300px', width: '100%' }}>
-                <Bar options={options} data={foodData} />
+                <Chart type="bar" options={options} data={foodData as any} />
             </Box>
             <Box sx={{ height: '300px', width: '100%' }}>
-                <Bar options={options} data={travelData} />
+                <Chart type="bar" options={options} data={travelData as any} />
             </Box>
             <Box sx={{ height: '300px', width: '100%' }}>
-                <Bar options={options} data={utilityData} />
+                <Chart type="bar" options={options} data={utilityData as any} />
             </Box>
             <Box sx={{ height: '300px', width: '100%' }}>
-                <Bar options={options} data={otherData} />
+                <Chart type="bar" options={options} data={otherData as any} />
             </Box>
             <Box sx={{ height: '300px', width: '100%' }}>
-                <Bar options={options} data={adhocData} />
+                <Chart type="bar" options={options} data={adhocData as any} />
             </Box>
         </Box>
     </Container>
