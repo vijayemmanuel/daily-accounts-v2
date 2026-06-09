@@ -9,6 +9,8 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
+  LineElement, 
+  PointElement, 
   Title,
   Tooltip,
   Legend,
@@ -24,6 +26,8 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
   Legend
@@ -46,19 +50,41 @@ function ChartsPanel() {
     maintainAspectRatio: false, // Allows you to set a fixed height
     plugins: {
         legend: { position: 'top' as const },
-        title: { display: true, text: 'Yearly Expenses' },
+        title: { display: true, text: 'Monthly Expenses' },
     },
     };
 
     const labels = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
+    const calculateAverage = (dataArray: number[]) => {
+        const total = dataArray.reduce((acc, val) => acc + val, 0);
+        const count = dataArray.filter(val => val > 0).length;
+        let avg = 0;
+        if (count === 0) {
+            avg = total;
+        } else {
+            avg = total / count;
+        }
+        return Array(12).fill(avg);
+    };
+
     const foodData = {
         labels,
         datasets: [
             {
-            label: 'Food',
-            data: labels.map((key:string) => foodExpenses[Number(key) - 1] || 0),
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                label: 'Food',
+                data: labels.map((key:string) => foodExpenses[Number(key) - 1] || 0),
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            },
+            {
+                type: 'line' as const, // This adds the line
+                label: `${'Average : ₹ ' + calculateAverage(foodExpenses)[0].toFixed(2)}`,
+                data: calculateAverage(foodExpenses),
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2,
+                borderDash: [5, 5], // Makes it a dashed line
+                pointRadius: 0,     // Hides the data points
+                fill: false,
             }
         ],
     };
@@ -67,9 +93,19 @@ function ChartsPanel() {
         labels,
         datasets: [
             {
-            label: 'Travel',
-            data: labels.map((key:string) => travelExpenses[Number(key) - 1] || 0),
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                label: 'Travel',
+                data: labels.map((key:string) => travelExpenses[Number(key) - 1] || 0),
+                backgroundColor: 'rgba(53, 162, 235, 0.5)',
+            },
+            {
+                type: 'line' as const, // This adds the line
+                label: `${'Average : ₹ ' + calculateAverage(travelExpenses)[0].toFixed(2)}`,
+                data: calculateAverage(travelExpenses),
+                borderColor: 'rgba(53, 162, 235, 1)',
+                borderWidth: 2,
+                borderDash: [5, 5], // Makes it a dashed line
+                pointRadius: 0,     // Hides the data points
+                fill: false,
             }
         ],
     };
@@ -78,9 +114,19 @@ function ChartsPanel() {
         labels,
         datasets: [
             {
-            label: 'Utility',
-            data: labels.map((key:string) => utilityExpenses[Number(key) - 1] || 0),
-            backgroundColor: 'rgba(255, 205, 86, 0.5)',
+                label: 'Utility',
+                data: labels.map((key:string) => utilityExpenses[Number(key) - 1] || 0),
+                backgroundColor: 'rgba(255, 205, 86, 0.5)',
+            },
+            {
+                type: 'line' as const, // This adds the line
+                label: `${'Average : ₹ ' + calculateAverage(utilityExpenses)[0].toFixed(2)}`,
+                data: calculateAverage(utilityExpenses),
+                borderColor: 'rgba(255, 205, 86, 1)',
+                borderWidth: 2,
+                borderDash: [5, 5], // Makes it a dashed line
+                pointRadius: 0,     // Hides the data points
+                fill: false,
             }
         ],
     };
@@ -89,9 +135,19 @@ function ChartsPanel() {
         labels,
         datasets: [
             {
-            label: 'Other',
-            data: labels.map((key:string) => otherExpenses[Number(key) - 1] || 0),
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                label: 'Other',
+                data: labels.map((key:string) => otherExpenses[Number(key) - 1] || 0),
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            },
+            {
+                type: 'line' as const, // This adds the line
+                label: `${'Average : ₹ ' + calculateAverage(otherExpenses)[0].toFixed(2)}`,
+                data: calculateAverage(otherExpenses),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                borderDash: [5, 5], // Makes it a dashed line
+                pointRadius: 0,     // Hides the data points
+                fill: false,
             }
         ],
     };
@@ -100,9 +156,19 @@ function ChartsPanel() {
         labels,
         datasets: [
             {
-            label: 'Adhoc',
-            data: labels.map((key:string) => adhocExpenses[Number(key) - 1] || 0),
-            backgroundColor: 'rgba(153, 102, 255, 0.5)',
+                label: 'Adhoc',
+                data: labels.map((key:string) => adhocExpenses[Number(key) - 1] || 0),
+                backgroundColor: 'rgba(153, 102, 255, 0.5)',
+            },
+            {
+                type: 'line' as const, // This adds the line
+                label: `${'Average : ₹ ' + calculateAverage(adhocExpenses)[0].toFixed(2)}`,
+                data: calculateAverage(adhocExpenses),
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 2,
+                borderDash: [5, 5], // Makes it a dashed line
+                pointRadius: 0,     // Hides the data points
+                fill: false,
             }
         ],
     };

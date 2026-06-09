@@ -169,8 +169,11 @@ return (
         <NumberField endAdornmentFlag={false} label="Total AdHoc Spending" value={adhocExpense !== null ? adhocExpense + totals.Adhoc : totals.Adhoc} readOnly={true} size="small"/>
       </Stack>
       <Stack direction="row" spacing={2} justifyContent="center">
-      <NumberField label="Enter Other Expense" size="small" value={otherExpense ?? null} onValueChange={(value) => value !== null && setOtherExpense(value)}/>
-      <NumberField endAdornmentFlag={false} label="Total Other Spending" value={otherExpense !== null ? otherExpense + totals.Other : totals.Other} readOnly={true} size="small"/>
+        <NumberField label="Enter Other Expense" size="small" value={otherExpense ?? null} onValueChange={(value) => value !== null && setOtherExpense(value)}/>
+        <NumberField endAdornmentFlag={false} label="Total Other Spending" value={otherExpense !== null ? otherExpense + totals.Other : totals.Other} readOnly={true} size="small"/>
+      </Stack>
+      <Stack direction="row" spacing={2} justifyContent="center">
+        <NumberField label="Total Monthly Spending" size="small" value={totals.Food + totals.Transport + totals.Utility + totals.Other + totals.Adhoc} readOnly={true} />
       </Stack>
       <Stack direction="row" spacing={2} justifyContent="center">
         <Button variant="contained" color="secondary" onClick={handleClear}>
