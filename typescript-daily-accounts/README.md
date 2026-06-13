@@ -1,16 +1,31 @@
-# React + Vite
+# React App for expense tracking
+This project uses vite framework to develop and deploy a react application to track my expenses.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Vite Setup
+Run the create command and follow the prompts
+```
+npm create vite@latest typescript-daily-accounts -- --template react
+```
 
-Currently, two official plugins are available:
+## Usage
+Install dependencies with:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+``` 
+npm install
+```
 
-## React Compiler
+and run the dev script for development on localhost
+```
+npm run dev
+```
+### Deployment
+Deploy with:
+```
+npm run build
+```
+After running build, upload the files index.html, favicon.png and assets/index-XXXX.js to AWS S3 
+as a static host website
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Invocation
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+After successful deployment, you can check the URL created like http://XXXXX.s3-website.ap-south-1.amazonaws.com/

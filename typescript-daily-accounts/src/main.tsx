@@ -4,8 +4,8 @@ import App from './components/AppLayout';
 import { BrowserRouter, Routes, Route } from "react-router";
 import SettingsPanel from './pages/SettingsPanel';
 import { MyThemeProvider } from './theme/theme';
-import ChartsPanel from './pages/ChartsPanel';
-import { registerCharts } from './pages/chart-setup';
+import { registerCharts } from './pages/ChartsSetup';
+import ChartLayout from './components/ChartLayout';
 
 registerCharts();
 
@@ -21,7 +21,7 @@ root.render(
                     <Route path="/" element={<App />} />
                     <Route path="/home" element={<App />} />
                     <Route path="/settings" element={<SettingsPanel />} />
-                    <Route path="/charts" element={<ChartsPanel />} />
+                    <Route path="/charts" element={<ChartLayout />} />
                 </Routes>
             </BrowserRouter>
         </MyThemeProvider>

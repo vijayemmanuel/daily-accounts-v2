@@ -13,7 +13,7 @@ interface ExpenditureYearSelectProps {
 function ExpenditureYearSelect(props: ExpenditureYearSelectProps) {
     // 2. Use useMemo so this list doesn't change unless the date prop changes
     const yearItems = useMemo(() => {
-        const n = props.date.getFullYear() - 2017; // Assuming you want to start from 2018
+        const n = props.date.getFullYear() - 2018; // Assuming you want to start from 2018
         
         const rawDays = Array.from({ length: n }, (_, index) => props.date.getFullYear() - index);
 

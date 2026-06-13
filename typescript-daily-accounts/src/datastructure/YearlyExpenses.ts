@@ -10,6 +10,17 @@ export const rawDayExpenses = z.object({
 });
 
 const transformedYearlyExpenses = rawDayExpenses.transform((val) => {
+    return {
+        Food: Number(val.Food || 0), // Handles missing or empty string values safely
+        Transport: Number(val.Transport || 0),
+        Utility: Number(val.Utility || 0),
+        Other: Number(val.Other || 0),
+        // Handles missing or empty string values safely
+        Adhoc: Number(val.Adhoc || 0), 
+    };
+});
+
+const transformedYearlyExpensesForMonth = rawDayExpenses.transform((val) => {
     // 1. Remove hyphens from "2025-04-02" to get "20250402"
     const cleanDateStr = val.Date.replace(/-/g, ""); // "20250402"
     
@@ -31,4 +42,8 @@ export const yearlyExpenses = z.object({
     message : z.array(transformedYearlyExpenses)
 });
 
-export default transformedYearlyExpenses;
+export const yearlyExpensesForMonth = z.object({
+    message : z.array(transformedYearlyExpensesForMonth)
+});
+
+export default yearlyExpensesForMonth;

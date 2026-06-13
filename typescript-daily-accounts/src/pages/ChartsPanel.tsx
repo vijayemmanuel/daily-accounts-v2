@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Header from "../components/Header";
 import Box from '@mui/material/Box';
 import { get } from '../utils/http';
 import { Stack, Typography, Container } from "@mui/material";
@@ -8,9 +7,9 @@ import type { ChartData } from 'chart.js';
 import ExpenditureYearSelect from '../components/ExpenditureYearSelect';
 import { formatToYYYY } from '../utils/dateutils';
 import { setError } from '../utils/error';
-import { yearlyExpenses } from '../datastructure/YearlyExpenses';
+import yearlyExpensesForMonth from '../datastructure/YearlyExpenses';
 
-function ChartsPanel() {
+function ChartsPanel({setIsFetching}: {setIsFetching: (value: boolean) => void}) {
 
     const today = new Date();
     const [selectedYear, setSelectedYear] = useState<Date>(today);
@@ -169,7 +168,7 @@ function ChartsPanel() {
     let ignore = false;
 
     async function fetchExpense() {
-        
+        setIsFetching(true);
         try {
         
         if (!ignore) {
@@ -177,7 +176,7 @@ function ChartsPanel() {
             const data = await get(
             `${window.API_URL}/expense?date=${formatToYYYY(selectedYear)}`
             );
-            const parsedData =  yearlyExpenses.parse(data); 
+            const parsedData =  yearlyExpensesForMonth.parse(data); 
             // TypeScript "knows" that parsedData will be an array of rawMonthlyExpenses
             // full with objects as defined by the above schema
 
@@ -210,7 +209,7 @@ function ChartsPanel() {
         }
         }
         finally {
-
+            setIsFetching(false);
         }
 
     }
@@ -224,30 +223,27 @@ function ChartsPanel() {
     }, [selectedYear]);
     
   return (
-    <Container>
-        <Header progressValue={false} />
+    <Box sx={ { display: 'grid', gap: 4, padding: 2, width: '100%' } }>
         <Stack direction="row" spacing={2} justifyContent="center">
             <Typography variant="h5" align="center" color="textPrimary">Select year </Typography>
             <ExpenditureYearSelect date={today} onYearChange={setSelectedYear}/>
         </Stack>
-        <Box sx={ { display: 'grid', gap: 4, padding: 2, width: '100%' } }>
-            <Box sx={{ height: '300px', width: '100%' }}>
-                <Chart type="bar" options={options} data={foodData as any} />
-            </Box>
-            <Box sx={{ height: '300px', width: '100%' }}>
-                <Chart type="bar" options={options} data={travelData as any} />
-            </Box>
-            <Box sx={{ height: '300px', width: '100%' }}>
-                <Chart type="bar" options={options} data={utilityData as any} />
-            </Box>
-            <Box sx={{ height: '300px', width: '100%' }}>
-                <Chart type="bar" options={options} data={otherData as any} />
-            </Box>
-            <Box sx={{ height: '300px', width: '100%' }}>
-                <Chart type="bar" options={options} data={adhocData as any} />
-            </Box>
+        <Box sx={{ height: '300px', width: '100%' }}>
+            <Chart type="bar" options={options} data={foodData as any} />
         </Box>
-    </Container>
+        <Box sx={{ height: '300px', width: '100%' }}>
+            <Chart type="bar" options={options} data={travelData as any} />
+        </Box>
+        <Box sx={{ height: '300px', width: '100%' }}>
+            <Chart type="bar" options={options} data={utilityData as any} />
+        </Box>
+        <Box sx={{ height: '300px', width: '100%' }}>
+            <Chart type="bar" options={options} data={otherData as any} />
+        </Box>
+        <Box sx={{ height: '300px', width: '100%' }}>
+            <Chart type="bar" options={options} data={adhocData as any} />
+        </Box>
+    </Box>
     );
 }
 
