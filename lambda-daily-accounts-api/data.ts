@@ -18,7 +18,7 @@ const transformedDbExpenseOut = rawDbExpenses.transform((val) => {
     Food: val.Food.toString(),
     Transport: val.Transport.toString(),
     Utility: val.Utility.toString(),
-    Other: val.Other.toString(),
+    Other: val.Other? val.Other.toString() : "0",
     Adhoc: val.Adhoc ? val.Adhoc.toString() : "0" 
   };
 });
